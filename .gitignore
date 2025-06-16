@@ -1,0 +1,6 @@
+*.csv
+*.ipynb
+.vscode
+.pytest_cache
+env_src
+*__pycache__*
