@@ -3,8 +3,7 @@ from datetime import datetime
 import asyncio
 import aiohttp
 from aiohttp import ClientTimeout
-from src.sensor import MetricsGenerator
-import pandas as pd
+from Data_Api.src.sensor import MetricsGenerator
 from functools import lru_cache
 from logging import Logger
 
