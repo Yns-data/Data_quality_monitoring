@@ -8,3 +8,5 @@ app.log
 data_bases/shops_database.duckdb
 data_bases/shops_database.duckdb.wal
 data_bases/shops_db.duckdb
+.env
+

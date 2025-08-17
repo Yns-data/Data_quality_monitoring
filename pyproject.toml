@@ -6,7 +6,16 @@ build-backend = "setuptools.build_meta"
 name = "data-quality-monitoring"
 version = "0.1.0"
 description = "Data quality monitoring tools"
+readme = "README.md"
 requires-python = ">=3.11"
+dependencies = []
 
 [tool.setuptools.packages.find]
+where = ["."]
 include = ["Data_quality_monitoring", "Data_quality_monitoring.*"]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.package-data]
+Data_quality_monitoring = ["**/*.sql", "**/*.yml", "**/*.yaml", "**/*.csv"]
