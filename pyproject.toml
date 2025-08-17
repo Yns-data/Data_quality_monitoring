@@ -9,14 +9,12 @@ description = "Data quality monitoring tools"
 readme = "README.md"
 requires-python = ">=3.11"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["Data_quality_monitoring*"]
+
 [tool.setuptools]
-packages = [
-  "Data_quality_monitoring",
-  "Data_quality_monitoring.conn_scripts",
-  "Data_quality_monitoring.data_bases",
-  "Data_quality_monitoring.extract_scripts",
-  "Data_quality_monitoring.trans_scripts",
-]
+include-package-data = true
 
 [tool.setuptools.package-data]
 Data_quality_monitoring = ["**/*.sql", "**/*.yml", "**/*.yaml", "**/*.csv"]
