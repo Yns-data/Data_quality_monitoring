@@ -1,3 +1,0 @@
-"""
-Data quality monitoring package
-""" 
