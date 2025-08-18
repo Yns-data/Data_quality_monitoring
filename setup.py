@@ -2,11 +2,11 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="Data_quality_monitoring",
+    name="data_quality_monitoring",
     version="0.1.0",
     author="Younes Essoualhi",
     author_email="younesessoualhi@gmail.com",
-    description="Une courte description de mon package",
+    description="description",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     packages=find_packages(),

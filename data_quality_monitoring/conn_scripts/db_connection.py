@@ -1,7 +1,7 @@
 from contextlib import contextmanager
 import psycopg2
 from dotenv import load_dotenv
-from Data_quality_monitoring.conn_scripts.project_logger import logger
+from data_quality_monitoring.conn_scripts.project_logger import logger
 import os
 from pathlib import Path
 

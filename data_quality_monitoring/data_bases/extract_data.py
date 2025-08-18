@@ -1,11 +1,11 @@
 from datetime import datetime, timedelta
 from typing import List 
 import os
-from Data_quality_monitoring.extract_scripts.extraction_func import get_dataframe
-from Data_quality_monitoring.extract_scripts.hashing_rows import hash_row
-from Data_quality_monitoring.trans_scripts.db_operations import get_insert_query_from_dataframe
-from Data_quality_monitoring.conn_scripts.project_logger import logger
-from Data_quality_monitoring.conn_scripts.db_connection import get_db_cursor_connection
+from data_quality_monitoring.extract_scripts.extraction_func import get_dataframe
+from data_quality_monitoring.extract_scripts.hashing_rows import hash_row
+from data_quality_monitoring.trans_scripts.db_operations import get_insert_query_from_dataframe
+from data_quality_monitoring.conn_scripts.project_logger import logger
+from data_quality_monitoring.conn_scripts.db_connection import get_db_cursor_connection
 
 import pandas as pd
 from dotenv import load_dotenv
