@@ -1,5 +1,4 @@
-from datetime import datetime, timedelta
-from typing import List 
+from datetime import datetime
 import os
 from data_quality_monitoring.extract_scripts.extraction_func import get_dataframe
 from data_quality_monitoring.extract_scripts.hashing_rows import hash_row
