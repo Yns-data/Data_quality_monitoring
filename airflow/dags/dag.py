@@ -26,7 +26,7 @@ with DAG(
     dag_id="multi_scripts_every_5min",
     default_args=default_args,
     start_date=datetime(2025, 8, 12),
-    schedule_interval="*/5 * * * *",  # toutes les 5 minutes
+    schedule_interval="0 * * * *",  # toutes les heures
     catchup=False
 ) as dag:
 
