@@ -173,7 +173,7 @@ requirements = [
     "tornado==6.5.1",
     "traitlets==5.14.3",
     "typing-inspection==0.4.1",
-    "typing_extensions==4.12.2",
+    "typing_extensions>=4.14.0",
     "tzdata==2025.2",
     "uc-micro-py==1.0.3",
     "universal_pathlib==0.2.5",
