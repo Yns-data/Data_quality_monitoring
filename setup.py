@@ -205,4 +205,6 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
+    include_package_data=True,
+    package_data={"data_quality_monitoring": ["py.typed"]},
 )
