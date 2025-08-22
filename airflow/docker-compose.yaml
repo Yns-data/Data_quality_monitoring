@@ -37,6 +37,13 @@ services:
       AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
       # Configuration pour accéder à l'API locale
       API_BASE_URL: 'http://host.docker.internal:8000'
+      # Variables d'environnement pour les scripts de qualité des données
+      user: ${user}
+      password: ${password}
+      host: ${host}
+      port: ${port}
+      dbname: ${dbname}
+      tablename: ${tablename}
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
@@ -62,6 +69,13 @@ services:
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
       # Configuration pour accéder à l'API locale
       API_BASE_URL: 'http://host.docker.internal:8000'
+      # Variables d'environnement pour les scripts de qualité des données
+      user: ${user}
+      password: ${password}
+      host: ${host}
+      port: ${port}
+      dbname: ${dbname}
+      tablename: ${tablename}
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
