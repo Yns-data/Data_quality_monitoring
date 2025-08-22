@@ -128,7 +128,7 @@ requirements = [
     "propcache==0.2.0",
     "protobuf==4.25.5",
     "psutil==6.1.0",
-    "psycopg2==2.9.10",
+    "psycopg2-binary==2.9.10",
     "pure_eval==0.2.3",
     "pycparser==2.22",
     "pydantic==2.11.7",
