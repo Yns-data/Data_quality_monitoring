@@ -141,7 +141,7 @@ requirements = [
     "python-nvd3==0.16.0",
     "python-slugify==8.0.4",
     "pytz==2025.2",
-    "pywin32==310",
+
     "PyYAML==6.0.2",
     "pyzmq==27.0.0",
     "realtime==2.6.0",
