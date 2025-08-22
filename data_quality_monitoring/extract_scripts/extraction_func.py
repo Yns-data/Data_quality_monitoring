@@ -9,7 +9,7 @@ from logging import Logger
 import os
 
 # Configuration
-BASE_URL = os.getenv("API_BASE_URL", "http://127.0.0.1:8000")
+BASE_URL = os.getenv("API_BASE_URL")
 TIMEOUT_SECONDS = 30
 MAX_RETRIES = 3
 CONCURRENT_REQUESTS = 10
