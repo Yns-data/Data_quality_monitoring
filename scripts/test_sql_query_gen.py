@@ -1,4 +1,6 @@
 
+# type: ignore
+
 import sys
 from pathlib import Path
 

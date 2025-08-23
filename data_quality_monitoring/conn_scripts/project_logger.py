@@ -1,3 +1,4 @@
+# type: ignore
 import logging
 # Logging configuration
 logging.basicConfig(

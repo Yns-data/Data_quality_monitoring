@@ -1,3 +1,4 @@
+# type: ignore
 from typing import Optional
 from datetime import datetime
 import asyncio

@@ -1,3 +1,4 @@
+# type: ignore
 from data_quality_monitoring.conn_scripts.db_connection import get_db_connection
 from data_quality_monitoring.conn_scripts.project_logger import logger
 import pandas as pd

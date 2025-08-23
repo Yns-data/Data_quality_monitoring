@@ -1,3 +1,4 @@
+# type: ignore
 from datetime import datetime
 import os
 from data_quality_monitoring.extract_scripts.extraction_func import get_dataframe

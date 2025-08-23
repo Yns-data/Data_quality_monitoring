@@ -1,3 +1,4 @@
+# type: ignore
 from typing import Optional
 TABLE_NAME = "table_shops"
 

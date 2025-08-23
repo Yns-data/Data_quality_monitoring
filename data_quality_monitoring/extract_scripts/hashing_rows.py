@@ -1,3 +1,4 @@
+# type: ignore
 import hashlib
 
 def hash_row(row):
