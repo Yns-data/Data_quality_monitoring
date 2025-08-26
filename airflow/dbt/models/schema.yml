@@ -1,0 +1,61 @@
+version: 2
+
+models:
+  - name: stg_data_quality_metrics
+    description: "Modèle de staging pour nettoyer et standardiser les métriques de qualité des données"
+    columns:
+      - name: id
+        description: "Identifiant unique de la métrique"
+        tests:
+          - unique
+          - not_null
+      - name: clean_table_name
+        description: "Nom de la table standardisé (minuscules, sans espaces)"
+        tests:
+          - not_null
+      - name: clean_column_name
+        description: "Nom de la colonne standardisé"
+      - name: clean_metric_type
+        description: "Type de métrique standardisé"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['completeness', 'accuracy', 'consistency', 'validity', 'uniqueness']
+      - name: metric_value
+        description: "Valeur de la métrique"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 1
+      - name: normalized_timestamp
+        description: "Timestamp normalisé de la vérification"
+        tests:
+          - not_null
+
+  - name: data_quality_summary
+    description: "Résumé agrégé des métriques de qualité des données par table et jour"
+    columns:
+      - name: table_name
+        description: "Nom de la table"
+        tests:
+          - not_null
+      - name: metric_type
+        description: "Type de métrique"
+        tests:
+          - not_null
+      - name: check_date
+        description: "Date de vérification"
+        tests:
+          - not_null
+      - name: quality_score
+        description: "Score de qualité calculé (0-100)"
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+      - name: trend
+        description: "Tendance par rapport au jour précédent"
+        tests:
+          - accepted_values:
+              values: ['Improved', 'Declined', 'Stable', 'N/A']

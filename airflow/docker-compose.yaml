@@ -44,10 +44,14 @@ services:
       port: ${port}
       dbname: ${dbname}
       tablename: ${tablename}
+      # Variables d'environnement pour dbt
+      DBT_PROFILES_DIR: /opt/airflow/dbt
+      DBT_PROJECT_DIR: /opt/airflow/dbt
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
       - ./scripts:/opt/airflow/scripts
+      - ./dbt:/opt/airflow/dbt
     ports:
       - "8080:8080"
     # Configuration réseau pour accéder à l'host
@@ -76,10 +80,14 @@ services:
       port: ${port}
       dbname: ${dbname}
       tablename: ${tablename}
+      # Variables d'environnement pour dbt
+      DBT_PROFILES_DIR: /opt/airflow/dbt
+      DBT_PROJECT_DIR: /opt/airflow/dbt
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
       - ./scripts:/opt/airflow/scripts
+      - ./dbt:/opt/airflow/dbt
     # Configuration réseau pour accéder à l'host
     extra_hosts:
       - "host.docker.internal:host-gateway"

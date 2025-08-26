@@ -1,0 +1,13 @@
+data_quality_project:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: "{{ env_var('host') }}"
+      user: "{{ env_var('user') }}"
+      password: "{{ env_var('password') }}"
+      port: "{{ env_var('port') | as_number }}"
+      dbname: "{{ env_var('dbname') }}"
+      schema: public
+      threads: 4
+      keepalives_idle: 0
