@@ -54,8 +54,9 @@ def process_data() -> None:
             return
 
         df_pandas = pd.DataFrame(data_dict)
-        df_pandas["id"] = df_pandas.apply(hash_row, axis=1)
-        df_pandas = df_pandas[df_pandas["id"] != 98205155]
+        # df_pandas["id"] = df_pandas.apply(hash_row, axis=1)
+        # df_pandas = df_pandas[df_pandas["id"] != 98205155]
+        # df_pandas['day'] = pd.to_datetime(df_pandas['dates'], format='%Y-%m-%d-%H').dt.day_name().str.lower()
 
         with get_db_cursor_connection() as cursor:
             table_name = TABLENAME
