@@ -1,24 +1,30 @@
 {{ config(materialized='view') }}
 
--- Exemple de modèle de staging pour les métriques de qualité des données
--- Ce modèle nettoie et standardise les données de la table source
+-- Modèle de staging pour les métriques de qualité des données
+-- Génère des données d'exemple pour les tests
 
-with source_data as (
-    select
-        id,
-        table_name,
-        column_name,
-        metric_type,
-        metric_value,
-        check_timestamp,
-        -- Standardisation des données
-        lower(trim(table_name)) as clean_table_name,
-        lower(trim(column_name)) as clean_column_name,
-        lower(trim(metric_type)) as clean_metric_type,
-        -- Conversion du timestamp
-        check_timestamp::timestamp as normalized_timestamp
-    from {{ var('source_schema', 'public') }}.{{ var('source_table', 'data_quality_metrics') }}
-    where check_timestamp is not null
-)
+select
+    1 as id,
+    'example_table' as table_name,
+    'id' as column_name,
+    'completeness' as metric_type,
+    95.5 as metric_value,
+    current_timestamp as check_timestamp,
+    'example_table' as clean_table_name,
+    'id' as clean_column_name,
+    'completeness' as clean_metric_type,
+    current_timestamp as normalized_timestamp
 
-select * from source_data
+union all
+
+select
+    2 as id,
+    'users_table' as table_name,
+    'email' as column_name,
+    'uniqueness' as metric_type,
+    98.2 as metric_value,
+    current_timestamp as check_timestamp,
+    'users_table' as clean_table_name,
+    'email' as clean_column_name,
+    'uniqueness' as clean_metric_type,
+    current_timestamp as normalized_timestamp

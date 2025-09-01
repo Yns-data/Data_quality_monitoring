@@ -23,11 +23,15 @@ dag = DAG(
     tags=['dbt', 'data_quality'],
 )
 
-dbt_deps = BashOperator(
-    task_id='dbt_deps',
-    bash_command='cd /opt/airflow/dbt && dbt deps',
-    dag=dag,
-)
+# dbt_deps = BashOperator(
+#     task_id='dbt_deps',
+#     bash_command='''
+#     cd /opt/airflow/dbt && 
+#     dbt clean &&
+#     echo "✅ Cache nettoyé"
+#     ''',
+#     dag=dag,
+# )
 
 dbt_run_staging = BashOperator(
     task_id='dbt_run_staging',
@@ -37,19 +41,28 @@ dbt_run_staging = BashOperator(
 
 dbt_run_marts = BashOperator(
     task_id='dbt_run_marts',
-    bash_command='cd /opt/airflow/dbt && dbt run --models marts',
+    bash_command='''
+    cd /opt/airflow/dbt && 
+    dbt run --models marts --target-path target
+    ''',
     dag=dag,
 )
 
 dbt_test = BashOperator(
     task_id='dbt_test',
-    bash_command='cd /opt/airflow/dbt && dbt test',
+    bash_command='''
+    cd /opt/airflow/dbt && 
+    dbt test --target-path target
+    ''',
     dag=dag,
 )
 
 dbt_docs_generate = BashOperator(
     task_id='dbt_docs_generate',
-    bash_command='cd /opt/airflow/dbt && dbt docs generate',
+    bash_command='''
+    cd /opt/airflow/dbt && 
+    dbt docs generate --target-path target
+    ''',
     dag=dag,
 )
 
@@ -63,4 +76,4 @@ success_notification = PythonOperator(
     dag=dag,
 )
 
-dbt_deps >> dbt_run_staging >> dbt_run_marts >> dbt_test >> dbt_docs_generate >> success_notification
+dbt_run_staging >> dbt_run_marts >> dbt_test >> dbt_docs_generate >> success_notification

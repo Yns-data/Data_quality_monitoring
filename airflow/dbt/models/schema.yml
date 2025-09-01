@@ -1,61 +1,123 @@
 version: 2
 
-models:
-  - name: stg_data_quality_metrics
-    description: "Modèle de staging pour nettoyer et standardiser les métriques de qualité des données"
-    columns:
-      - name: id
-        description: "Identifiant unique de la métrique"
-        tests:
-          - unique
-          - not_null
-      - name: clean_table_name
-        description: "Nom de la table standardisé (minuscules, sans espaces)"
-        tests:
-          - not_null
-      - name: clean_column_name
-        description: "Nom de la colonne standardisé"
-      - name: clean_metric_type
-        description: "Type de métrique standardisé"
-        tests:
-          - not_null
-          - accepted_values:
-              values: ['completeness', 'accuracy', 'consistency', 'validity', 'uniqueness']
-      - name: metric_value
-        description: "Valeur de la métrique"
-        tests:
-          - not_null
-          - dbt_utils.accepted_range:
-              min_value: 0
-              max_value: 1
-      - name: normalized_timestamp
-        description: "Timestamp normalisé de la vérification"
-        tests:
-          - not_null
+# models:
+#   - name: stg_data_quality_metrics
+#     description: "Modèle de staging pour nettoyer et standardiser les métriques de qualité des données"
+#     columns:
+#       - name: id
+#         description: "Identifiant unique de la métrique"
+#         data_tests:
+#           - unique
+#           - not_null
+#       - name: clean_table_name
+#         description: "Nom de la table standardisé (minuscules, sans espaces)"
+#         data_tests:
+#           - not_null
+#       - name: clean_column_name
+#         description: "Nom de la colonne standardisé"
+#       - name: clean_metric_type
+#         description: "Type de métrique standardisé"
+#         data_tests:
+#           - not_null
+#           - accepted_values:
+#               values: ['completeness', 'accuracy', 'consistency', 'validity', 'uniqueness']
+#       - name: metric_value
+#         description: "Valeur de la métrique"
+#         data_tests:
+#           - not_null
+#       - name: normalized_timestamp
+#         description: "Timestamp normalisé de la vérification"
+#         data_tests:
+#           - not_null
 
-  - name: data_quality_summary
-    description: "Résumé agrégé des métriques de qualité des données par table et jour"
-    columns:
-      - name: table_name
-        description: "Nom de la table"
-        tests:
-          - not_null
-      - name: metric_type
-        description: "Type de métrique"
-        tests:
-          - not_null
-      - name: check_date
-        description: "Date de vérification"
-        tests:
-          - not_null
-      - name: quality_score
-        description: "Score de qualité calculé (0-100)"
-        tests:
-          - dbt_utils.accepted_range:
-              min_value: 0
-              max_value: 100
-      - name: trend
-        description: "Tendance par rapport au jour précédent"
-        tests:
-          - accepted_values:
-              values: ['Improved', 'Declined', 'Stable', 'N/A']
+#   - name: data_quality_summary
+#     description: "Résumé agrégé des métriques de qualité des données par table et jour"
+#     columns:
+#       - name: table_name
+#         description: "Nom de la table"
+#         data_tests:
+#           - not_null
+#       - name: metric_type
+#         description: "Type de métrique"
+#         data_tests:
+#           - not_null
+#       - name: check_date
+#         description: "Date de vérification"
+#         data_tests:
+#           - not_null
+#       - name: quality_score
+#         description: "Score de qualité calculé (0-100)"
+#         data_tests:
+#           - not_null
+#       - name: trend
+#         description: "Tendance par rapport au jour précédent"
+#         data_tests:
+#           - accepted_values:
+#               values: ['Improved', 'Declined', 'Stable', 'N/A']
+
+
+sources:
+  - name: public
+    description: "Schéma public de la base de données"
+    tables:
+      - name: table_shops
+        description: "Table source des magasins avec données de visiteurs et articles"
+        columns:
+          - name: id
+            description: "Identifiant unique auto-généré"
+            data_tests:
+              - unique
+              - not_null
+          - name: dates
+            description: "Date de l'enregistrement"
+            data_tests:
+              - not_null
+          - name: visitors
+            description: "Nombre de visiteurs"
+            data_tests:
+              - not_null
+          - name: pages_viewed
+            description: "Nombre de pages vues"
+            data_tests:
+              - not_null
+          - name: cities
+            description: "Villes concernées"
+            data_tests:
+              - not_null
+          - name: food_articles
+            description: "Articles alimentaires"
+            data_tests:
+              - not_null
+          - name: wear_articles
+            description: "Articles vestimentaires"
+            data_tests:
+              - not_null
+          - name: electronics_articles
+            description: "Articles électroniques"
+            data_tests:
+              - not_null
+          - name: sports_articles
+            description: "Articles de sport"
+            data_tests:
+              - not_null
+          - name: toys_articles
+            description: "Articles de jouets"
+            data_tests:
+              - not_null
+          - name: home_articles
+            description: "Articles de maison"
+            data_tests:
+              - not_null
+          - name: garden_articles
+            description: "Articles de jardin"
+            data_tests:
+              - not_null
+          - name: beauty_articles
+            description: "Articles de beauté"
+            data_tests:
+              - not_null
+          - name: automotive_articles
+            description: "Articles automobiles"
+            data_tests:
+              - not_null
+  

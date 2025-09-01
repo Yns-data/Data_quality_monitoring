@@ -54,6 +54,7 @@ services:
       - ./dbt:/opt/airflow/dbt
     ports:
       - "8080:8080"
+      - "8081:8081"
     # Configuration réseau pour accéder à l'host
     extra_hosts:
       - "host.docker.internal:host-gateway"
