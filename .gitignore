@@ -28,3 +28,4 @@ airflow/logs/dag_processor_manager/dag_processor_manager.log
 airflow/logs/scheduler/2025-08-19/dag.py.log
 airflow/logs/dag_processor_manager/dag_processor_manager.log
 airflow/dbt/target
+airflow/logs/dag_processor_manager/dag_processor_manager.log

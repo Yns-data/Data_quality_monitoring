@@ -1,6 +1,3 @@
--- Test que toutes les valeurs numériques sont dans des plages logiques
--- Ce test échoue s'il trouve des valeurs en dehors des plages acceptables
-
 SELECT 
     id,
     visitors,
@@ -27,5 +24,5 @@ WHERE
     OR garden_articles < 0
     OR beauty_articles < 0
     OR automotive_articles < 0
-    OR visitors > 1000000  -- Limite supérieure raisonnable
-    OR pages_viewed > 10000000  -- Limite supérieure raisonnable
+    OR visitors > 1000000 
+    OR pages_viewed > 10000000
