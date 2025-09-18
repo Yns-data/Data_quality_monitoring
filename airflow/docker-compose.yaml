@@ -17,6 +17,7 @@ services:
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
     volumes:
       - ./scripts:/opt/airflow/scripts
+      - ./noted-cider-471206-n4-6f7e8536f07f.json:/opt/airflow/noted-cider-471206-n4-6f7e8536f07f.json
     user: root
     command: >
       bash -c "apt-get update && apt-get install -y git ca-certificates &&
@@ -35,8 +36,6 @@ services:
       AIRFLOW__CORE__FERNET_KEY: 'YOUR_FERNET_KEY'
       AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'false'
       AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
-      # Configuration pour accéder à l'API locale
-      API_BASE_URL: 'http://host.docker.internal:8000'
       # Variables d'environnement pour les scripts de qualité des données
       user: ${user}
       password: ${password}
@@ -44,6 +43,11 @@ services:
       port: ${port}
       dbname: ${dbname}
       tablename: ${tablename}
+      key: /opt/airflow/noted-cider-471206-n4-6f7e8536f07f.json
+      project_id: ${project_id}
+      dataset_id: ${dataset_id}
+      table_id: ${table_id}
+      API_BASE_URL: ${API_BASE_URL}
       # Variables d'environnement pour dbt
       DBT_PROFILES_DIR: /opt/airflow/dbt
       DBT_PROJECT_DIR: /opt/airflow/dbt
@@ -52,6 +56,7 @@ services:
       - ./logs:/opt/airflow/logs
       - ./scripts:/opt/airflow/scripts
       - ./dbt:/opt/airflow/dbt
+      - ./noted-cider-471206-n4-6f7e8536f07f.json:/opt/airflow/noted-cider-471206-n4-6f7e8536f07f.json
     ports:
       - "8080:8080"
       - "8081:8081"
@@ -72,8 +77,6 @@ services:
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
-      # Configuration pour accéder à l'API locale
-      API_BASE_URL: 'http://host.docker.internal:8000'
       # Variables d'environnement pour les scripts de qualité des données
       user: ${user}
       password: ${password}
@@ -81,6 +84,11 @@ services:
       port: ${port}
       dbname: ${dbname}
       tablename: ${tablename}
+      key: /opt/airflow/noted-cider-471206-n4-6f7e8536f07f.json
+      project_id: ${project_id}
+      dataset_id: ${dataset_id}
+      table_id: ${table_id}
+      API_BASE_URL: ${API_BASE_URL}
       # Variables d'environnement pour dbt
       DBT_PROFILES_DIR: /opt/airflow/dbt
       DBT_PROJECT_DIR: /opt/airflow/dbt
@@ -89,6 +97,7 @@ services:
       - ./logs:/opt/airflow/logs
       - ./scripts:/opt/airflow/scripts
       - ./dbt:/opt/airflow/dbt
+      - ./noted-cider-471206-n4-6f7e8536f07f.json:/opt/airflow/noted-cider-471206-n4-6f7e8536f07f.json
     # Configuration réseau pour accéder à l'host
     extra_hosts:
       - "host.docker.internal:host-gateway"
