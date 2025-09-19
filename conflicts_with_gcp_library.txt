@@ -1,0 +1,10 @@
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+opentelemetry-proto 1.27.0 requires protobuf<5.0,>=3.19, but you have protobuf 5.29.5 which is incompatible.
+dbt-adapters 1.9.0 requires protobuf<5.0,>=3.0, but you have protobuf 5.29.5 which is incompatible.
+limits 3.13.0 requires packaging<25,>=21, but you have packaging 25.0 which is incompatible.
+dbt-core 1.8.2 requires protobuf<5,>=4.0.0, but you have protobuf 5.29.5 which is incompatible.
+data-quality-monitoring 0.1.0 requires grpcio==1.67.1, but you have grpcio 1.75.0 which is incompatible.
+data-quality-monitoring 0.1.0 requires packaging==24.1, but you have packaging 25.0 which is incompatible.
+data-quality-monitoring 0.1.0 requires protobuf==4.25.5, but you have protobuf 5.29.5 which is incompatible.
+dbt-common 1.12.0 requires protobuf<5.0.0,>=4.0.0, but you have protobuf 5.29.5 which is incompatible.
+

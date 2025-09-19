@@ -22,14 +22,18 @@ services:
     command: >
       bash -c "apt-get update && apt-get install -y git ca-certificates &&
       su airflow -c 'git config --global http.sslverify false' &&
-      su airflow -c 'pip install --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org -r /opt/airflow/scripts/requirements.txt' &&
+      su airflow -c 'pip install --break-system-packages --no-deps --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org -r /opt/airflow/scripts/requirements.txt' &&
+      mkdir -p /opt/airflow/logs/dag_processor_manager &&
+      chown -R airflow:root /opt/airflow/logs &&
+      chmod -R 755 /opt/airflow/logs &&
       su airflow -c 'airflow db migrate' &&
       su airflow -c 'airflow users create --username admin --firstname Air --lastname Flow --role Admin --email admin@admin.com --password admin'"
 
   webserver:
     image: apache/airflow:2.10.3
     depends_on:
-      - init
+      init:
+        condition: service_completed_successfully
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
@@ -67,13 +71,17 @@ services:
     command: >
       bash -c "apt-get update && apt-get install -y git ca-certificates &&
       su airflow -c 'git config --global http.sslverify false' &&
-      su airflow -c 'pip install --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org -r /opt/airflow/scripts/requirements.txt' &&
+      su airflow -c 'pip install --break-system-packages --no-deps --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org -r /opt/airflow/scripts/requirements.txt' &&
+      mkdir -p /opt/airflow/logs/dag_processor_manager &&
+      chown -R airflow:root /opt/airflow/logs &&
+      chmod -R 755 /opt/airflow/logs &&
       su airflow -c 'airflow webserver'"
 
   scheduler:
     image: apache/airflow:2.10.3
     depends_on:
-      - init
+      init:
+        condition: service_completed_successfully
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
@@ -105,7 +113,10 @@ services:
     command: >
       bash -c "apt-get update && apt-get install -y git ca-certificates &&
       su airflow -c 'git config --global http.sslverify false' &&
-      su airflow -c 'pip install --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org -r /opt/airflow/scripts/requirements.txt' &&
+      su airflow -c 'pip install --break-system-packages --no-deps --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org -r /opt/airflow/scripts/requirements.txt' &&
+      mkdir -p /opt/airflow/logs/dag_processor_manager &&
+      chown -R airflow:root /opt/airflow/logs &&
+      chmod -R 755 /opt/airflow/logs &&
       su airflow -c 'airflow scheduler'"
 
 volumes:
