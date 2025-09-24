@@ -72,5 +72,3 @@ airflow/dbt/logs/
 Thumbs.db
 *.tmp
 *.temp
-airflow/logs/dag_processor_manager/dag_processor_manager.log
-airflow/logs/dag_processor_manager/dag_processor_manager.log

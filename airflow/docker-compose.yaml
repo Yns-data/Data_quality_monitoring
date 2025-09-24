@@ -17,7 +17,6 @@ services:
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
     volumes:
       - ./scripts:/opt/airflow/scripts
-      - ./noted-cider-471206-n4-6f7e8536f07f.json:/opt/airflow/noted-cider-471206-n4-6f7e8536f07f.json
     user: root
     command: >
       bash -c "apt-get update && apt-get install -y git ca-certificates &&
@@ -47,7 +46,7 @@ services:
       port: ${port}
       dbname: ${dbname}
       tablename: ${tablename}
-      key: /opt/airflow/noted-cider-471206-n4-6f7e8536f07f.json
+      key: /opt/scripts/noted-cider-471206-n4-6f7e8536f07f.json
       project_id: ${project_id}
       dataset_id: ${dataset_id}
       table_id: ${table_id}
@@ -60,7 +59,6 @@ services:
       - ./logs:/opt/airflow/logs
       - ./scripts:/opt/airflow/scripts
       - ./dbt:/opt/airflow/dbt
-      - ./noted-cider-471206-n4-6f7e8536f07f.json:/opt/airflow/noted-cider-471206-n4-6f7e8536f07f.json
     ports:
       - "8080:8080"
       - "8081:8081"
@@ -92,7 +90,7 @@ services:
       port: ${port}
       dbname: ${dbname}
       tablename: ${tablename}
-      key: /opt/airflow/noted-cider-471206-n4-6f7e8536f07f.json
+      key: /opt/airflow/scripts/noted-cider-471206-n4-6f7e8536f07f.json
       project_id: ${project_id}
       dataset_id: ${dataset_id}
       table_id: ${table_id}
@@ -105,7 +103,6 @@ services:
       - ./logs:/opt/airflow/logs
       - ./scripts:/opt/airflow/scripts
       - ./dbt:/opt/airflow/dbt
-      - ./noted-cider-471206-n4-6f7e8536f07f.json:/opt/airflow/noted-cider-471206-n4-6f7e8536f07f.json
     # Configuration réseau pour accéder à l'host
     extra_hosts:
       - "host.docker.internal:host-gateway"

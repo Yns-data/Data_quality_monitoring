@@ -11,3 +11,12 @@ data_quality_project:
       schema: public
       threads: 4
       keepalives_idle: 0
+
+    bigquery_dev:
+      type: bigquery
+      method: service-account
+      keyfile: "{{ env_var('key') }}"
+      project: "{{ env_var('project_id') }}"
+      dataset: "{{ env_var('dataset_id') }}"
+      table: "{{ env_var('table_id') }}"      
+      threads: 4
