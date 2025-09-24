@@ -90,7 +90,7 @@ services:
       port: ${port}
       dbname: ${dbname}
       tablename: ${tablename}
-      key: /opt/airflow/noted-cider-471206-n4-6f7e8536f07f.json
+      key: /opt/airflow/scripts/noted-cider-471206-n4-6f7e8536f07f.json
       project_id: ${project_id}
       dataset_id: ${dataset_id}
       table_id: ${table_id}
