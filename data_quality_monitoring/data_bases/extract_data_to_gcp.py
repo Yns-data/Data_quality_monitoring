@@ -1,28 +1,16 @@
 # type: ignore
 from datetime import datetime
-import os
 from data_quality_monitoring.extract_scripts.extraction_func import get_dataframe
 from data_quality_monitoring.trans_scripts.db_operations import get_insert_query_from_dataframe
 from data_quality_monitoring.conn_scripts.project_logger import logger
-import argparse
-import sys
 from google.cloud import bigquery
 from google.oauth2 import service_account
-from google.api_core.exceptions import Conflict, NotFound
 import pandas as pd
-from dotenv import load_dotenv
 
-load_dotenv()
 
-KEY = os.getenv("key")
-PROJECT = os.getenv("project_id")
-DATASET = os.getenv("dataset_id")
-TABLE = os.getenv("table_id")
 
-credentials = service_account.Credentials.from_service_account_file(KEY)
-client = bigquery.Client(project=PROJECT, credentials=credentials)
 
-def process_data() -> None:
+def process_data(client:bigquery.Client, dataset:str, table:str, base_url:str) -> None:
     """
     Processes data for a given date and inserts it into the database.
     
@@ -50,7 +38,7 @@ def process_data() -> None:
 
         logger.info(f"Processing data for date: {process_date}")
 
-        data_dictionary = get_dataframe(dates=process_date, logger=logger)
+        data_dictionary = get_dataframe(dates=process_date, logger=logger, base_url=base_url)
         if not data_dictionary:
             logger.warning("No data retrieved")
             return
@@ -60,23 +48,25 @@ def process_data() -> None:
         # df_pandas = df_pandas[df_pandas["id"] != 98205155]
         # df_pandas['day'] = pd.to_datetime(df_pandas['dates'], format='%Y-%m-%d-%H').dt.day_name().str.lower()
 
-        table_name = f"{DATASET}.{TABLE}"
+        table_name = f"{dataset}.{table}"
         query = get_insert_query_from_dataframe(
             df=df_pandas,
-            table_name=f"{DATASET}.{TABLE}",
+            table_name=f"{dataset}.{table}",
         )
         client.query(query)
-        logger.info(f"Data successfully inserted into table {table_name} that belongs to dataset {DATASET}")
-
+        logger.info(f"Data successfully inserted into table {table_name} that belongs to dataset {dataset}")
+    
     except Exception as e:
         logger.error(f"Error while processing data: {e}")
         raise
 
-def execute():
+def execute(project: str, dataset: str, table: str, base_url:str,key:str = None) -> None:
     """Main entry point of the script."""
+    credentials = service_account.Credentials.from_service_account_file(key)
+    client = bigquery.Client(project=project, credentials=credentials)
     try:
         logger.info("Starting data processing")
-        process_data()
+        process_data(client, dataset, table, base_url)
         logger.info("Data processing completed successfully")
     except Exception as e:
         logger.error(f"Error during script execution: {e}")

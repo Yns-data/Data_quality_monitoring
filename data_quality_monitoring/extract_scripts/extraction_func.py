@@ -7,10 +7,8 @@ from aiohttp import ClientTimeout
 from data_quality_monitoring.sensor_scripts.sensor import MetricsGenerator
 from functools import lru_cache
 from logging import Logger
-import os
 
 # Configuration
-BASE_URL = os.getenv("API_BASE_URL")
 TIMEOUT_SECONDS = 30
 MAX_RETRIES = 3
 CONCURRENT_REQUESTS = 10
@@ -24,11 +22,11 @@ def format_date(date: datetime) -> str:
     """Cache date formatting for better performance with repeated dates."""
     return date.strftime("%Y-%m-%d-%H")
 
-async def make_request(session: aiohttp.ClientSession, endpoint: str, params: dict, logger: Logger) -> dict:
+async def make_request(session: aiohttp.ClientSession, endpoint: str, params: dict, logger: Logger, base_url:str) -> dict:
     """Make an HTTP request with retry logic and error handling."""
     for attempt in range(MAX_RETRIES):
         try:
-            async with session.get(f"{BASE_URL}/{endpoint}", params=params) as response:
+            async with session.get(f"{base_url}/{endpoint}", params=params) as response:
                 response.raise_for_status()
                 data = await response.json()
                 logger.info(f"Successfully fetched data from {endpoint}")
@@ -41,6 +39,7 @@ async def make_request(session: aiohttp.ClientSession, endpoint: str, params: di
 
 async def get_dataframe_async(dates: Optional[datetime|list[datetime]],
                               logger: Logger,
+                              base_url:str,
                             dico: Optional[dict] = None) -> dict:
     """Asynchronous version of get_dataframe with improved error handling and performance."""
     if dico is None:
@@ -67,12 +66,12 @@ async def get_dataframe_async(dates: Optional[datetime|list[datetime]],
     async with aiohttp.ClientSession(timeout=timeout) as session:
         # Prepare all requests
         article_tasks = [
-            make_request(session, f"articles/{cat}", params, logger)
+            make_request(session, f"articles/{cat}", params, logger, base_url)
             for cat in metrics_generator.categories
         ]
         
         other_endpoint_tasks = [
-            make_request(session, endpoint, params, logger)
+            make_request(session, endpoint, params, logger, base_url)
             for endpoint in ["visitors", "pages_viewed", "cities"]
         ]
 
@@ -114,7 +113,7 @@ async def get_dataframe_async(dates: Optional[datetime|list[datetime]],
         logger.info("Successfully completed data processing")
         return dico
 
-def get_dataframe(dates: Optional[datetime|list[datetime]], logger: Logger, dico: Optional[dict] = None) -> dict:
+def get_dataframe(dates: Optional[datetime|list[datetime]], logger: Logger, base_url:str ,dico: Optional[dict] = None) -> dict:
     """Synchronous wrapper for backward compatibility."""
     try:
         # Check if we're in a Jupyter notebook with an existing event loop
@@ -123,11 +122,11 @@ def get_dataframe(dates: Optional[datetime|list[datetime]], logger: Logger, dico
             # Create a new loop in a separate thread for Jupyter compatibility
             import nest_asyncio
             nest_asyncio.apply()
-        result = asyncio.run(get_dataframe_async(dates,logger,dico))
+        result = asyncio.run(get_dataframe_async(dates, logger, base_url, dico))
         logger.info(f"Successfully executed within existing event loop for {dates}")
         return result
     except RuntimeError:
         # We're already inside an event loop, use it
-        result = asyncio.get_event_loop().run_until_complete(get_dataframe_async(dates, logger, dico))
+        result = asyncio.get_event_loop().run_until_complete(get_dataframe_async(dates, logger, dico, base_url))
         logger.info(f"Successfully executed within existing event loop for {dates}")
         return result
