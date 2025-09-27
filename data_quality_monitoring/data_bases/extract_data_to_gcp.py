@@ -62,9 +62,12 @@ def process_data(client:bigquery.Client, dataset:str, table:str, base_url:str) -
 
 def execute(project: str, dataset: str, table: str, base_url:str,key:str = None) -> None:
     """Main entry point of the script."""
-    credentials = service_account.Credentials.from_service_account_file(key)
-    client = bigquery.Client(project=project, credentials=credentials)
     try:
+        if key:
+            credentials = service_account.Credentials.from_service_account_file(key)
+            client = bigquery.Client(project=project, credentials=credentials)
+        else:
+            client = bigquery.Client()   
         logger.info("Starting data processing")
         process_data(client, dataset, table, base_url)
         logger.info("Data processing completed successfully")
