@@ -113,20 +113,30 @@ async def get_dataframe_async(dates: Optional[datetime|list[datetime]],
         logger.info("Successfully completed data processing")
         return dico
 
-def get_dataframe(dates: Optional[datetime|list[datetime]], logger: Logger, base_url:str ,dico: Optional[dict] = None) -> dict:
+def get_dataframe(
+    dates: Optional[datetime | list[datetime]],
+    logger: Logger,
+    base_url: str,
+    dico: Optional[dict] = None
+) -> dict:
     """Synchronous wrapper for backward compatibility."""
     try:
-        # Check if we're in a Jupyter notebook with an existing event loop
-        loop = asyncio.get_event_loop()
-        if loop.is_running():
-            # Create a new loop in a separate thread for Jupyter compatibility
-            import nest_asyncio
-            nest_asyncio.apply()
-        result = asyncio.run(get_dataframe_async(dates, logger, base_url, dico))
-        logger.info(f"Successfully executed within existing event loop for {dates}")
+        # if a loop exists (ex: Jupyter, FastAPI)
+        loop = asyncio.get_running_loop()
+        # creating a new loop in a seprated thread to avoid conflicts
+        new_loop = asyncio.new_event_loop()
+        result = new_loop.run_until_complete(
+            get_dataframe_async(dates, logger, base_url, dico)
+        )
+        new_loop.close()
+        logger.info(f"Executed in running event loop for {dates}")
         return result
+
     except RuntimeError:
-        # We're already inside an event loop, use it
-        result = asyncio.get_event_loop().run_until_complete(get_dataframe_async(dates, logger, dico, base_url))
-        logger.info(f"Successfully executed within existing event loop for {dates}")
-        return result
+        # if there is no loop (standard script execution)
+        try:
+            result = asyncio.run(get_dataframe_async(dates, logger, base_url, dico))
+            logger.info(f"Executed with asyncio.run() for {dates}")
+            return result
+        except Exception as e:
+            logger.error(f"Error executing get_dataframe for {dates}: {e}")
