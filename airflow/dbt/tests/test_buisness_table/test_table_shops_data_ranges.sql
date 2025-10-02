@@ -1,5 +1,4 @@
 SELECT 
-    id,
     visitors,
     pages_viewed,
     food_articles,
@@ -11,7 +10,7 @@ SELECT
     garden_articles,
     beauty_articles,
     automotive_articles
-FROM {{ source('public', 'table_shops') }}
+FROM {{ source('public', env_var('table_id')) }}
 WHERE 
     visitors < 0 
     OR pages_viewed < 0

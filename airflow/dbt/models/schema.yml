@@ -58,16 +58,16 @@ version: 2
 
 sources:
   - name: public
-    description: "Schéma public de la base de données"
+    schema: "{{ env_var('dataset_id') }}"
     tables:
-      - name: table_shops
+      - name: "{{ env_var('table_id') }}"
         description: "Table source des magasins avec données de visiteurs et articles"
         columns:
-          - name: id
-            description: "Identifiant unique auto-généré"
-            data_tests:
-              - unique
-              - not_null
+          # - name: id
+          #   description: "Identifiant unique auto-généré"
+          #   data_tests:
+          #     - unique
+          #     - not_null
           - name: dates
             description: "Date de l'enregistrement"
             data_tests:

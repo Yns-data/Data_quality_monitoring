@@ -1,20 +1,21 @@
 SELECT 
-    id,
     dates
-FROM {{ source('public', 'table_shops') }}
+FROM {{ source('public', env_var('table_id')) }}
 WHERE 
-    LENGTH(TRIM(dates)) = 0
+    dates IS NULL
+    OR LENGTH(TRIM(dates)) = 0
     OR LENGTH(dates) < 13
-    OR NOT (SUBSTRING(dates, 1, 4) ~ '^[0-9]{4}$')
-    OR SUBSTRING(dates, 5, 1) != '-'
-    OR NOT (SUBSTRING(dates, 6, 2) ~ '^[0-9]{2}$')
-    OR SUBSTRING(dates, 8, 1) != '-'
-    OR NOT (SUBSTRING(dates, 9, 2) ~ '^[0-9]{2}$')
-    OR SUBSTRING(dates, 11, 1) != '-'
-    OR NOT (SUBSTRING(dates, 12, 2) ~ '^[0-9]{2}$')
-    OR CAST(SUBSTRING(dates, 6, 2) AS INTEGER) < 1 
-    OR CAST(SUBSTRING(dates, 6, 2) AS INTEGER) > 12
-    OR CAST(SUBSTRING(dates, 9, 2) AS INTEGER) < 1 
-    OR CAST(SUBSTRING(dates, 9, 2) AS INTEGER) > 31
-    OR CAST(SUBSTRING(dates, 12, 2) AS INTEGER) < 0
-    OR CAST(SUBSTRING(dates, 12, 2) AS INTEGER) > 23
+    OR NOT REGEXP_CONTAINS(SUBSTR(dates, 1, 4), r'^[0-9]{4}$')
+    OR SUBSTR(dates, 5, 1) != '-'
+    OR NOT REGEXP_CONTAINS(SUBSTR(dates, 6, 2), r'^[0-9]{2}$')
+    OR SUBSTR(dates, 8, 1) != '-'
+    OR NOT REGEXP_CONTAINS(SUBSTR(dates, 9, 2), r'^[0-9]{2}$')
+    OR SUBSTR(dates, 11, 1) != '-'
+    OR NOT REGEXP_CONTAINS(SUBSTR(dates, 12, 2), r'^[0-9]{2}$')
+    OR CAST(SUBSTR(dates, 6, 2) AS INT64) < 1
+    OR CAST(SUBSTR(dates, 6, 2) AS INT64) > 12
+    OR CAST(SUBSTR(dates, 9, 2) AS INT64) < 1
+    OR CAST(SUBSTR(dates, 9, 2) AS INT64) > 31
+    OR CAST(SUBSTR(dates, 12, 2) AS INT64) < 0
+    OR CAST(SUBSTR(dates, 12, 2) AS INT64) > 23
+

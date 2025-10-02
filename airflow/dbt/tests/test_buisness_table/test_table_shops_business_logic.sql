@@ -1,11 +1,11 @@
 SELECT 
-    id,
     dates,
     pages_viewed,
     cities
-FROM {{ source('public', 'table_shops') }}
+FROM {{ source('public', env_var('table_id')) }}
 WHERE 
     (LENGTH(TRIM(cities)) = 0)
-    OR (cities ~ '[<>{}\\[\\]\\\\|`~!@#$%^&*()+=]')
+    OR REGEXP_CONTAINS(cities, r'[<>{}\[\]\\|`~!@#$%^&*()+=]')
+
     
 
